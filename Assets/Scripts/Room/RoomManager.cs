@@ -25,6 +25,7 @@ public class RoomManager : MonoBehaviour
         {
             for (int i = 0; i < rooms.Count; i++)
             {
+                Debug.Log("Room " + i + " is " + allRoomsUnlockedState[i]);
                 rooms[i].isUnlocked = allRoomsUnlockedState[i];
                 rooms[i].SetInitialState();
             }
@@ -43,6 +44,7 @@ public class RoomManager : MonoBehaviour
             room.OnRoomStateChanged += HandleRoomStateChanged;
             UpdateRoomLists(room);
         }
+        StatsTracker.Instance.GetNextTarget();
     }
 
     private void HandleRoomStateChanged(RoomController room)

@@ -10,8 +10,9 @@ public class StatsTracker : MonoBehaviour
     [SerializeField] private int cashInHand = 0;
     [SerializeField] private TextMeshProUGUI cashText;
     [SerializeField] private TextMeshProUGUI targetText;
-    private List<RoomController> roomControllers;
+    public List<RoomController> roomControllers;
     public event System.Action OnCurrencyAdjusted;
+    Camera camera;
 
     private void Awake()
     {
@@ -25,15 +26,20 @@ public class StatsTracker : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.M)) 
+        {
+            AdjustCurrency(1000);
+        }
+
+    }
+
     private void Start()
     {
         cashInHand = SavingLoadingManager.Instance.LoadPlayerMoney();
         OnCurrencyAdjusted.Invoke();
         cashText.text = "$" + cashInHand.ToString();
-        if (RoomManager.Instance != null && RoomManager.Instance.rooms != null)
-        {
-            GetNextTarget();
-        }
     }
 
     public void AdjustCurrency(int amount)
@@ -47,7 +53,7 @@ public class StatsTracker : MonoBehaviour
         }
     }
     
-    private void GetNextTarget()
+    public void GetNextTarget()
     {
         roomControllers = new List<RoomController>(
             RoomManager.Instance.rooms
